@@ -1,0 +1,14 @@
+let rev_list (li: 'a list) : 'a list = 
+  let rec go (liste: 'a list) (result: 'a list) =
+    match liste with 
+    | [] -> result
+    | x::xs -> go xs (x::result) 
+  in go li [] 
+    
+let rev_list_cps (li: 'a list) (k: 'a list -> 'b) : 'b = 
+  let rec go (liste: 'a list) (result: 'a list) =
+    match liste with 
+    | [] -> k result
+    | x::xs -> go xs (x::result) 
+  in go li [] 
+  
