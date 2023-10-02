@@ -1,0 +1,24 @@
+let rec last (li : 'a list) : 'a option = 
+  match li with
+  | [] -> None
+  | [ x ] -> Some x
+  | x::xs -> last xs 
+               
+let rec last_cps (li: 'a list) (fonc: 'a option -> 'b) : 'b = 
+  match li with 
+  | [] -> fonc None
+  | [x] -> fonc (Some x)
+  | x::xs -> last_cps xs (fun res -> fonc res) 
+  
+let rec last_two (li: 'a list) : ('a * 'a) option = 
+  match li with
+  | [] | [ _ ] -> None 
+  | [x; y] -> Some (x,y)
+  | x::xs -> last_two xs 
+             
+               
+let rec last_two_cps (li: 'a list) (k: ('a * 'a) option -> 'b) : 'b = 
+  match li with
+  | [] | [ _ ] -> k None 
+  | [x; y] -> k (Some (x,y))
+  | x::xs -> last_two_cps xs (fun result -> k result) 
