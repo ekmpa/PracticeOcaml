@@ -1,0 +1,25 @@
+let rec nth_el (li: 'a list) (n: int) : 'a option = 
+  match li with 
+  | [] -> None 
+  | x::xs -> if (n=0) then Some x else nth_el xs (n-1) 
+          
+let rec nth_el_cps (li: 'a list) (n: int) (k: 'a option -> 'b) : 'a option = 
+  match li with 
+  | [] -> k None 
+  | x::xs -> if (n=0) then k (Some x) else nth_el_cps xs (n-1) (fun res -> k res) 
+  
+let length (li: 'a list) : int = 
+  let rec go (liste: 'a list) (counter: int) : int = 
+    match liste with 
+    | [] -> counter 
+    | x::xs -> go xs counter+1 
+  in 
+  go li 0 
+  
+let length_cps (li: 'a list) (k: int -> 'b) : 'b = 
+  let rec go (liste: 'a list) (counter: int) : int = 
+    match liste with 
+    | [] -> counter 
+    | x::xs -> go xs counter+1 
+  in 
+  k (go li 0 )
